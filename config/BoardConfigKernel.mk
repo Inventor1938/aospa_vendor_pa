@@ -90,9 +90,14 @@ endif
 KERNEL_TOOLCHAIN_PATH_gcc := $(KERNEL_TOOLCHAIN_$(KERNEL_ARCH))/$(KERNEL_TOOLCHAIN_PREFIX_$(KERNEL_ARCH))
 
 ifneq ($(USE_CCACHE),)
-    ifneq ($(CCACHE_EXEC),)
-        # Android 10+ deprecates use of a build ccache. Only system installed ones are now allowed
-        CCACHE_BIN := $(CCACHE_EXEC)
+    ifeq ($(USE_SYSTEM_CCACHE),)
+        # Use the prebuilt ccache bin
+        CCACHE_BIN := $(BUILD_TOP)/prebuilts/build-tools/$(HOST_PREBUILT_TAG)/bin/ccache
+        # Check that the executable is there
+        CCACHE_BIN := $(strip $(wildcard $(CCACHE_BIN)))
+    else
+        # Use system binary
+        CCACHE_BIN := $(shell which ccache)
     endif
 endif
 
@@ -124,13 +129,9 @@ ifeq ($(KERNEL_ARCH),arm64)
 endif
 
 ifeq ($(HOST_OS),darwin)
-  KERNEL_MAKE_FLAGS += C_INCLUDE_PATH=$(BUILD_TOP)/external/elfutils/libelf:/usr/local/opt/openssl/include
-  KERNEL_MAKE_FLAGS += LIBRARY_PATH=/usr/local/opt/openssl/lib
+  KERNEL_MAKE_FLAGS += HOSTCFLAGS="-I$(BUILD_TOP)/external/elfutils/libelf -I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib"
 else
-  KERNEL_MAKE_FLAGS += C_INCLUDE_PATH=$(BUILD_TOP)/prebuilts/openssl/$(HOST_OS)-x86/1.1.1/include
-  KERNEL_MAKE_FLAGS += LIBRARY_PATH=$(BUILD_TOP)/prebuilts/openssl/$(HOST_OS)-x86/1.1.1/lib/x86_64-linux-gnu
-  KERNEL_MAKE_FLAGS += HOSTCFLAGS="-L $(BUILD_TOP)/prebuilts/openssl/$(HOST_OS)-x86/1.1.1/lib/x86_64-linux-gnu"
-  KERNEL_MAKE_FLAGS += HOSTLDFLAGS="-L $(BUILD_TOP)/prebuilts/openssl/$(HOST_OS)-x86/1.1.1/lib/x86_64-linux-gnu"
+  KERNEL_MAKE_FLAGS += HOSTCFLAGS="-I/usr/include -I/usr/include/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -L/usr/lib64"
 endif
 
 ifneq ($(TARGET_KERNEL_ADDITIONAL_FLAGS),)

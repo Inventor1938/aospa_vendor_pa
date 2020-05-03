@@ -18,18 +18,14 @@ PRODUCT_PACKAGES += ParanoidCamera
 endif
 PRODUCT_PACKAGES += \
     SoundRecorder \
-    WallpaperPicker \
     LatinIME \
-    LiveWallpapers \
-    LiveWallpapersPicker \
     Longshot \
-    ParanoidPapers \
     ParanoidQuickStep \
     ThemePicker
 
 ifneq ($(filter RELEASE BETA,$(PA_BUILDTYPE)),)
-    PRODUCT_PACKAGES += \
-    ParanoidHub
+#    PRODUCT_PACKAGES += \
+#    ParanoidHub
 endif
 
 ifeq ($(TARGET_SUPPORTS_64_BIT_APPS), true)
@@ -53,14 +49,14 @@ PRODUCT_PACKAGES += \
     ParanoidOverlayStub
 
 # Snapdragon apps
-PRODUCT_PACKAGES += \
-    SnapdragonGallery
+#PRODUCT_PACKAGES += \
+#    SnapdragonGallery
 
 # Abstruct
-PRODUCT_PACKAGES += Abstruct
+#PRODUCT_PACKAGES += Abstruct
 
 # Retro Music Player
-PRODUCT_PACKAGES += RetroMusicPlayer
+#PRODUCT_PACKAGES += RetroMusicPlayer
 
 # CAF packages
 # TCP Connection Management

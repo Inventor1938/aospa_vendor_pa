@@ -141,7 +141,7 @@ include vendor/pa/sdclang/sdclang.mk
 endif
 
 # Optimize everything for preopt
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
+#PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
 
 # Enable ALLOW_MISSING_DEPENDENCIES on Vendorless Builds
 ifeq ($(BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE),)
@@ -179,6 +179,19 @@ PRODUCT_COPY_FILES += \
     vendor/pa/seccomp/codec2.vendor.ext.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/codec2.vendor.ext.policy \
     vendor/pa/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
     vendor/pa/seccomp/mediaextractor-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
+
+# Use ccache
+USE_CCACHE := true
+USE_SYSTEM_CCACHE := true
+ifeq ($(filter-out true,$(USE_CCACHE)),)
+  ifeq ($(filter-out true,$(USE_SYSTEM_CCACHE)),)
+    CCACHE_EXEC := $(shell which ccache)
+  else
+    CCACHE_EXEC := prebuilts/build-tools/linux-x86/bin/ccache
+  endif
+endif
+
+TARGET_DISABLES_GAPPS := true
 
 ifneq ($(TARGET_DISABLES_GAPPS), true)
 

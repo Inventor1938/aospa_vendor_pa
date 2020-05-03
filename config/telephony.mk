@@ -7,8 +7,7 @@ PRODUCT_COPY_FILES += vendor/pa/prebuilt/etc/apns-conf.xml:$(TARGET_COPY_OUT_SYS
 
 # Telephony packages
 PRODUCT_PACKAGES += \
-    Stk \
-    CellBroadcastReceiver
+    Stk
 
 # Default ringtone
 PRODUCT_PRODUCT_PROPERTIES += \
