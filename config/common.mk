@@ -193,6 +193,7 @@ ifeq ($(filter-out true,$(USE_CCACHE)),)
   endif
 endif
 
+WITHOUT_CHECK_API := true
 TARGET_DISABLES_GAPPS := true
 
 ifneq ($(TARGET_DISABLES_GAPPS), true)
