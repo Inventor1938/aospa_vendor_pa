@@ -115,7 +115,7 @@ PRODUCT_PACKAGES += \
     rsync
     
 # GlassROM packages
-PRODUCT_PACKAGES += \
-    FDroidPrivilegedExtension \
-    UnifiedNlp \
-    PdfViewer
+#PRODUCT_PACKAGES += \
+#    FDroidPrivilegedExtension \
+#    UnifiedNlp \
+#    PdfViewer
